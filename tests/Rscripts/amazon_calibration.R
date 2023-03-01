@@ -1,22 +1,22 @@
 library(tidyverse)
 rm(list=ls())
 
-output_dir = "pspm_output_zeta_x_co2"
-prefix = "HIST_ELE"
+output_dir = "pspm_output_no_evo"
+prefix = "pspm_output_no_evo_SWP1_long"
 
-solver = "zeta_0.200000" #_old_params"
-setwd(paste0("~/codes/Plant-FATE/",output_dir,"/",prefix,"_",solver))
+solver = "p50" #_old_params"
+setwd(paste0("~/PlantFate/root/Plant-FATE/",output_dir,"/",prefix,"/")) #,"_",solver))
 
 plot_to_file = T
 plot_trait_space = T
 
-add_band = function(){
-  polygon(x=c(2000,5000,5000,2000), y=c(-1e20,-1e20,1e20,1e20), border = NA, col=scales::alpha("yellow2",0.2))
-}
+#add_band = function(){
+#  polygon(x=c(2000,5000,5000,2000), y=c(-1e20,-1e20,1e20,1e20), border = NA, col=scales::alpha("yellow2",0.2))
+#}
 
-add_hband = function(ylim, col=scales::alpha("grey30",0.2), xlim=c(-1e20,2000)){
-  polygon(y=c(ylim[1],ylim[2],ylim[2],ylim[1]), x=c(xlim[1],xlim[1],xlim[2],xlim[2]), border = NA, col=col)
-}
+#add_hband = function(ylim, col=scales::alpha("grey30",0.2), xlim=c(-1e20,2000)){
+#  polygon(y=c(ylim[1],ylim[2],ylim[2],ylim[1]), x=c(xlim[1],xlim[1],xlim[2],xlim[2]), border = NA, col=col)
+#}
 
 # seeds1 = read.delim("seeds.txt", header=F, col.names = paste0("V", 1:(n_species+2)))
 Zp = read.delim("z_star.txt", header=F, col.names = paste0("V", 1:50))
@@ -48,7 +48,7 @@ seeds = dat2 %>% select(YEAR, PID, SEEDS) %>% spread(value = "SEEDS", key = "PID
 matplot(seeds$YEAR, seeds[,-1], lty=1, col=rainbow(n = n_species+1, start = 0, end = 0.85, alpha = min(10/n_species, 1)), type="l",
         las=1, xlab="Time (years)", ylab="Species seed\noutput", log="")
 mtext(line=0.5, side=3, text=solver)
-add_band()
+#add_band()
 
 # matplot(seeds1$V1, seeds1[,-1], lty=1, col=rainbow(n = n_species+1, start = 0, end = 0.85), type="l",
 #         las=1, xlab="Time (years)", ylab="Species Seed output", log="")
@@ -57,12 +57,12 @@ add_band()
 BA = dat2 %>% select(YEAR, PID, BA) %>% spread(value = "BA", key = "PID")
 matplot(BA$YEAR, cbind(BA[,-1], rowSums(BA[,-1], na.rm=T))*1e4, lty=1, col=c(rainbow(n = n_species, start = 0, end = 0.85), "black"), type="l",
         las=1, xlab="Time (years)", ylab="Basal area", log="")
-add_hband(c(31.29, 31.29*1.02))
-add_band()
+#add_hband(c(31.29, 31.29*1.02))
+#add_band()
 
 matplot(Zp$V1, Zp[,-1], lty=1, col=rainbow(n = 10, start = 0, end = 0.85), type="l",
         las=1, xlab="Time (years)", ylab="Z*")
-add_band()
+#add_band()
 # matplot(co$V1, co[,-1], lty=1, col=rainbow(n = 10, start = 0, end = 0.85), type="l",
 #         las=1, xlab="Time (years)", ylab="Io")
 matplot(y=1:24, x=t(-lai_v[,3:26]+lai_v[,2:25]), lty=1, col=rainbow(n = n_year, start = 0, end = 0.85, alpha=0.05), type="l",
@@ -73,8 +73,8 @@ matplot(y=1:25, x=t(lai_v[,2:26]), lty=1, col=rainbow(n = n_year, start = 0, end
 
 plot(dat$LAI~dat$YEAR, type="l", col="red3", ylim=c(0,max(dat$LAI,6.5)), xlab="Time (years)", ylab="Total LAI")
 # abline(h=c(5.3, 6.2), col=scales::muted("red"))
-add_hband(c(5.3, 6.2))#, col=scales::alpha("red3", 0.2))
-add_band()
+#add_hband(c(5.3, 6.2))#, col=scales::alpha("red3", 0.2))
+#add_band()
 # abline(h=c(3.5), col=scales::muted("grey100"))
 
 
@@ -106,28 +106,28 @@ add_band()
 matplot(y=cbind(dat$GPP, dat$NPP)*1e-3*365, x=dat$YEAR, type="l", lty=1, col=c("green4", "green3"), ylab="GPP, NPP\n(kgC/m2/yr)", xlab="Time (years)")
 # points(y=dat$NPP/dat$GPP*4, x=dat$YEAR, type="l", lty=1, col=c("yellow1"))
 # abline(h=c(3,3.5), col="grey")
-add_hband(c(3,3.5))#, col=scales::alpha("black",0.3))
-add_hband(c(1.31,1.3555))#, col=scales::alpha("black",0.3))
+#add_hband(c(3,3.5))#, col=scales::alpha("black",0.3))
+#add_hband(c(1.31,1.3555))#, col=scales::alpha("black",0.3))
 # abline(h=c(1.31), col=scales::muted("green3"))
-add_band()
+#add_band()
 
 matplot(y=cbind(dat$GS), x=dat$YEAR, type="l", lty=1, col=c("cyan3"), ylab="Stomatal conductance\n(mol/m2/s)", xlab="Time (years)")
-add_hband(c(0.16, 0.16555))#, col=scales::alpha("cyan4", 0.6))
+#add_hband(c(0.16, 0.16555))#, col=scales::alpha("cyan4", 0.6))
 # abline(h=c(0.16), col=scales::muted("cyan3"))
-add_band()
+#add_band()
 
 agb = cbind(dat$CL+dat$CW)/1e3
 matplot(y=agb, x=dat$YEAR, type="l", lty=1, col=c("yellow4"), ylim=c(0,max(agb)), ylab="AGB\n(kgC/m2)", xlab = "Time (years)")
-add_hband(c(16.9, 20.7))#, col=scales::alpha("yellow3", 0.3))
-add_band()
+#add_hband(c(16.9, 20.7))#, col=scales::alpha("yellow3", 0.3))
+#add_band()
 
 matplot(y=cbind(dat$CFR)/1e3, x=dat$YEAR, type="l", lty=1, col=c("brown"), ylab="C-FR\n(kgC/m2)", xlab = "Time (years)", ylim=c(0, max(dat$CFR/1e3,0.7)))
-add_hband(c(0.48, 0.66))#, col=scales::alpha("brown", 0.3))
-add_band()
+#add_hband(c(0.48, 0.66))#, col=scales::alpha("brown", 0.3))
+#add_band()
 
 matplot(y=cbind(dat$VCMAX), x=dat$YEAR, type="l", lty=1, col=c("green3"), ylab="Vcmax\n(umol/m2/s)", xlab="Time (years)")
-add_hband(c(40,40.555), col=scales::muted("green4"))
-add_band()
+#add_hband(c(40,40.555), col=scales::muted("green4"))
+#add_band()
 
 # matplot(y=cbind(as.numeric(colMeans(filter(dist, V1>1100 & V1<2000)[, -c(1,2)], na.rm = T)),
 #                 as.numeric(colMeans(filter(dist, V1>2100 & V1<3000)[, -c(1,2)], na.rm = T))
@@ -156,7 +156,8 @@ yobs=c(350.5221340921042,
        0.5597156879584093)/10
 points(yobs~xobs, pch=20, col=scales::alpha("grey30", 0.4), cex=1.7)
 
-traits_obs = read.csv(file = "../../tests/data/Amz_trait_filled_HD.csv")
+traits_obs = read.csv(file = "~/PlantFate/root/Plant-FATE/tests/data/single_species.csv")
+
 
 traits_obs %>% select(Leaf.LMA..g.m2., Total.BasalArea_2017.cm2.) %>% drop_na %>% with(density(x =Leaf.LMA..g.m2., weights=Total.BasalArea_2017.cm2./sum(Total.BasalArea_2017.cm2.))) %>% plot(ylim=c(0,0.02), las=0, main="", xlab="LMA", col=NA, lwd=2)
 traits_obs %>% select(Leaf.LMA..g.m2., Total.BasalArea_2017.cm2.) %>% drop_na %>% with(density(x =Leaf.LMA..g.m2., weights=Total.BasalArea_2017.cm2./sum(Total.BasalArea_2017.cm2.))) %>% polygon(col=scales::alpha("grey30", 0.2), border=scales::alpha("grey30",0.4))
@@ -245,9 +246,9 @@ p2 = dat2 %>% select(YEAR, PID, BA) %>%
 
 p3 = dat2 %>% select(YEAR, PID, BA) %>% 
   left_join(traits, by = c("PID"="SPP", "YEAR"="YEAR")) %>% 
-  filter(YEAR > 2120 & YEAR < 3000) %>% 
+  #filter(YEAR > 2120 & YEAR < 3000) %>% 
   # filter(RES==T) %>% 
-  ggplot(aes(y=LMA, x=WD))+
+  ggplot(aes(y=P50, x=YEAR))+
   theme_classic(base_size = 12)+
   geom_point(aes(col=BA*1e4, size=RES), alpha=0.7)+
   scale_color_viridis_c(direction = -1)+
@@ -281,8 +282,8 @@ par(mfrow=c(1,3), mar=c(5,6,4,1), oma=c(1,1,2,1), cex.lab=1.3, cex.axis=1.2, mgp
 
 with(dat %>% filter(YEAR<1200), matplot(y=cbind(GPP, NPP)*1e-3*365, x=YEAR, type="l", lty=1, col=c("green4", "green3"), ylab="GPP, NPP\n(kgC m-2 yr-1)", xlab="Time (years)"))
 # abline(h=c(3,3.5), col="grey")
-add_hband(c(3,3.5), col=scales::alpha("black",0.2))
-add_hband(c(1.31,1.4), col=scales::alpha("black", 0.4))#, col=scales::alpha("black",0.3))
+#add_hband(c(3,3.5), col=scales::alpha("black",0.2))
+#add_hband(c(1.31,1.4), col=scales::alpha("black", 0.4))#, col=scales::alpha("black",0.3))
 # abline(h=c(1.31), col=scales::muted("green3"))
 mtext(text = "CO2 Fluxes", side=3, line=1)
 

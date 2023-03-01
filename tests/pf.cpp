@@ -24,17 +24,31 @@ int main(){
 	// }
 
 
-	// Effect of zeta x CO2
-	vector<double> zeta = {0.08, 0.2};
+// changes in p50
+	vector<double> p50_xylem = {-0.5};
 
-	for (int i=0; i<2; ++i){
+	for (int i=0; i<1; ++i){
 		Simulator sim("tests/params/p.ini");
-		sim.traits0.zeta = zeta[i];
-		sim.expt_dir = "HIST_ELE_zeta_" + to_string(zeta[i]);
-		sim.init(1000, 3000);
+		sim.traits0.p50_xylem = p50_xylem[i];
+		sim.expt_dir = "pspm_output_no_evo_SWP1_long";
+		sim.init(1000, 1500);
 		sim.simulate();
 		sim.close();
 	}
+
+
+
+	// Effect of zeta x CO2
+	//vector<double> zeta = {0.08, 0.2};
+
+	//for (int i=0; i<2; ++i){
+		//Simulator sim("tests/params/p.ini");
+		//sim.traits0.zeta = zeta[i];
+		//sim.expt_dir = "HIST_ELE_zeta_" + to_string(zeta[i]);
+		//sim.init(1000, 3000);
+		//sim.simulate();
+		//sim.close();
+	//}
 
 
 
