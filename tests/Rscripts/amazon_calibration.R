@@ -7,8 +7,8 @@ prefix = "pspm_output_no_evo_SWP1_long"
 solver = "p50" #_old_params"
 setwd(paste0("~/PlantFate/root/Plant-FATE/",output_dir,"/",prefix,"/")) #,"_",solver))
 
-plot_to_file = T
-plot_trait_space = T
+plot_to_file = F
+plot_trait_space = F
 
 #add_band = function(){
 #  polygon(x=c(2000,5000,5000,2000), y=c(-1e20,-1e20,1e20,1e20), border = NA, col=scales::alpha("yellow2",0.2))
